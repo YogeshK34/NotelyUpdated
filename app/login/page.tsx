@@ -38,20 +38,22 @@ export default function Login() {
       >
         {error && <div className="text-black">{error}</div>}
         <h1 className="mb-5 w-full text-2xl font-bold">Sign In</h1>
-        <label className="w-full text-sm">Email</label>
+        <label className="w-full text-sm" htmlFor="email">Email</label>
         <input
-          type="email"
-          placeholder="Email"
           className="w-full h-8 border border-solid border-black rounded p-2"
+          id="email"
           name="email"
+          placeholder="Email"
+          type="email"
         />
-        <label className="w-full text-sm">Password</label>
+        <label className="w-full text-sm" htmlFor="password">Password</label>
         <div className="flex w-full">
           <input
-            type="password"
-            placeholder="Password"
             className="w-full h-8 border border-solid border-black rounded p-2"
+            id="password"
             name="password"
+            placeholder="Password"
+            type="password"
           />
         </div>
         <button className="w-full border border-solid border-black rounded">
@@ -60,19 +62,19 @@ export default function Login() {
 
         <div className="w-full mt-4">
           <button
-            type="button"
-            onClick={() => handleOAuthSignIn("google")}
             className="w-full border border-solid border-black rounded mb-2"
+            onClick={() => handleOAuthSignIn("google")}
+            type="button"
           >
             Sign In with Google
           </button>
         </div>
 
         <Link
-          href="/register"
           className="text-sm text-[#888] transition duration-150 ease hover:text-black"
+          href="/register"
         >
-          Don't have an account?
+          Don&apos;t have an account?
         </Link>
       </form>
     </section>

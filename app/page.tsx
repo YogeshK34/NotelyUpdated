@@ -1,14 +1,14 @@
 import { Link } from "@nextui-org/link";
-import { Snippet } from "@nextui-org/snippet";
-import { Code } from "@nextui-org/code";
 import { button as buttonStyles } from "@nextui-org/theme";
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
+
 import {
   NavbarContent,
   NavbarItem,
   Navbar as NextUINavbar,
 } from "@nextui-org/navbar";
+
+import { siteConfig } from "@/config/site";
+import { title, subtitle } from "@/components/primitives";
 import { TwitterIcon, DiscordIcon, GithubIcon } from "@/components/icons";
 import { ThemeSwitch } from "@/components/theme-switch";
 

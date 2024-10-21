@@ -1,11 +1,10 @@
-import User from "@/models/User";
-import type { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-// import { connectDB } from "@/lib/auth"; // Ensure the correct import path for connectDB
 import mongoose from "mongoose";
-import GitHubProvider from "next-auth/providers/github";
+import bcrypt from "bcryptjs";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import type { NextAuthOptions } from "next-auth";
+
+import User from "@/models/User";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -30,6 +29,7 @@ export const authOptions: NextAuthOptions = {
         );
 
         if (!passwordMatch) throw new Error("Wrong Password");
+
         return user;
       },
     }),
@@ -42,13 +42,13 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn({ account }) {
       if (account && account.provider === "google") {
         return true;
       }
       return true;
     },
-    async redirect({ url, baseUrl }) {
+    async redirect({ baseUrl }) {
       return baseUrl;
     },
   },
@@ -63,11 +63,8 @@ export const connectDB = async () => {
 
   try {
     const mongoUri = process.env.MONGODB_URI as string;
-
     await mongoose.connect(mongoUri); // Connect without deprecated options
-    console.log("MongoDB connected successfully");
   } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
     throw new Error("Failed to connect to MongoDB");
   }
 };

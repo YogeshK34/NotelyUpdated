@@ -26,49 +26,56 @@ export default function Register() {
   };
 
   return (
-    <section className="w-full h-screen flex items-center justify-center">
+    <section className="flex h-screen w-full items-center justify-center">
       <form
-        ref={ref}
+        className="flex w-full max-w-[400px] flex-col items-center justify-between gap-2 
+                rounded border border-solid border-black bg-white p-6"
         onSubmit={handleSubmit} // Use onSubmit instead of action
-        className="p-6 w-full max-w-[400px] flex flex-col justify-between items-center gap-2 
-                border border-solid border-black bg-white rounded"
+        ref={ref}
       >
         {error && <div className="text-red-500">{error}</div>}{" "}
-        {/* Error styling */}
         <h1 className="mb-5 w-full text-2xl font-bold">Register</h1>
-        <label className="w-full text-sm">Full Name</label>
+
+        <label htmlFor="name" className="w-full text-sm">Full Name</label>
         <input
-          type="text"
-          placeholder="Full Name"
-          className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded text-[13px]"
+          className="w-full h-8 rounded border border-solid border-black px-2.5 py-1 text-[13px]"
+          id="name"
           name="name"
+          placeholder="Full Name"
           required // Mark as required
+          type="text"
         />
-        <label className="w-full text-sm">Email</label>
+
+        <label htmlFor="email" className="w-full text-sm">Email</label>
         <input
-          type="email"
-          placeholder="Email"
-          className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded"
+          className="w-full h-8 rounded border border-solid border-black px-2.5 py-1"
+          id="email"
           name="email"
+          placeholder="Email"
           required // Mark as required
+          type="email"
         />
-        <label className="w-full text-sm">Password</label>
+
+        <label htmlFor="password" className="w-full text-sm">Password</label>
         <input
-          type="password"
-          placeholder="Password"
-          className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded"
+          className="w-full h-8 rounded border border-solid border-black px-2.5 py-1"
+          id="password"
           name="password"
+          placeholder="Password"
           required // Mark as required
+          type="password"
         />
+
         <button
-          className="w-full border border-solid border-black py-1.5 mt-2.5 rounded
+          className="mt-2.5 w-full rounded border border-solid border-black py-1.5
                 transition duration-150 ease hover:bg-black"
         >
           Sign up
         </button>
+
         <Link
-          href="/login"
           className="text-sm text-[#888] transition duration-150 ease hover:text-black"
+          href="/login"
         >
           Already have an account?
         </Link>
