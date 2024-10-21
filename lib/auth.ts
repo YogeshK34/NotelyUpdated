@@ -16,19 +16,24 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        if (!credentials?.email || !credentials.password) {
+          throw new Error("Email and Password are required");
+        }
+
         await connectDB();
         const user = await User.findOne({
-          email: credentials?.email,
+          email: credentials.email,
         }).select("+password");
 
-        if (!user) throw new Error("Wrong Email");
+        if (!user) {
+          throw new Error("Invalid email or password");
+        }
 
-        const passwordMatch = await bcrypt.compare(
-          credentials!.password,
-          user.password,
-        );
+        const passwordMatch = await bcrypt.compare(credentials.password, user.password);
 
-        if (!passwordMatch) throw new Error("Wrong Password");
+        if (!passwordMatch) {
+          throw new Error("Invalid email or password");
+        }
 
         return user;
       },
@@ -43,10 +48,8 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({ account }) {
-      if (account && account.provider === "google") {
-        return true;
-      }
-      return true;
+      // Return true if the user is signing in with Google or any other provider
+      return account?.provider === "google";
     },
     async redirect({ baseUrl }) {
       return baseUrl;
@@ -63,8 +66,10 @@ export const connectDB = async () => {
 
   try {
     const mongoUri = process.env.MONGODB_URI as string;
-    await mongoose.connect(mongoUri); // Connect without deprecated options
+    await mongoose.connect(mongoUri);
+    console.log("MongoDB connected successfully");
   } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
     throw new Error("Failed to connect to MongoDB");
   }
 };
