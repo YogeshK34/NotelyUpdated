@@ -1,12 +1,12 @@
 import mongoose, { Schema, model } from "mongoose";
 
 export interface UserDocument {
-    _id: string;
-    email: string;
-    password: string;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
+  _id: string;
+  email: string;
+  password: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const UserSchema = new Schema<UserDocument>(
@@ -31,8 +31,8 @@ const UserSchema = new Schema<UserDocument>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-const User = mongoose.models?.User || model<UserDocument>('User', UserSchema);
+const User = mongoose.models?.User || model<UserDocument>("User", UserSchema);
 export default User;

@@ -83,8 +83,8 @@ export const Navbar = () => {
       >
         <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
         <NavbarItem className="flex justify-between gap-2">
-        <SignUpButton/>
-        <SigninButton/>
+          <SignUpButton />
+          <SigninButton />
         </NavbarItem>
       </NavbarContent>
 
