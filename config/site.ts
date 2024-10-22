@@ -1,4 +1,5 @@
 export type SiteConfig = typeof siteConfig;
+import { signOut } from "next-auth/react";
 
 export const siteConfig = {
   name: "NOTELY",
@@ -28,35 +29,35 @@ export const siteConfig = {
   navMenuItems: [
     {
       label: "Profile",
-      href: "/profile",
+      href: "/about",
     },
     {
       label: "Dashboard",
-      href: "/dashboard",
+      href: "/pricing",
     },
     {
       label: "Projects",
-      href: "/projects",
+      href: "/docs",
     },
     {
       label: "Team",
-      href: "/team",
+      href: "/blog",
     },
     {
       label: "Calendar",
-      href: "/calendar",
+      href: "/blog",
     },
     {
       label: "Settings",
-      href: "/settings",
+      href: "/pricing",
     },
     {
       label: "Help & Feedback",
-      href: "/help-feedback",
+      href: "/home",
     },
     {
       label: "Logout",
-      href: "/logout",
+      onClick: () => signOut({callbackUrl: "/"}),
     },
   ],
   links: {
