@@ -7,7 +7,6 @@ import type { NextAuthOptions } from "next-auth";
 import User from "@/models/User";
 
 export const authOptions: NextAuthOptions = {
-    debug: true,
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -45,7 +44,7 @@ export const authOptions: NextAuthOptions = {
       authorization: {
         params: {
           prompt: "select_account",
-          redirect_uri: 'https://notely-updated.vercel.app/api/auth/callback/google',
+          redirect_uri: 'http://localhost:3000/api/auth/callback/google',
         },
       },
     }),    
@@ -72,11 +71,13 @@ export const connectDB = async () => {
   }
 
   try {
-    const mongoUri = process.env.MONGODB_URI as string;
+    const  mongoUri = process.env.MONGODB_URI as string;
     await mongoose.connect(mongoUri);
     console.log("MongoDB connected successfully");
   } catch (error) {
+    console.log("MONGODB_URI:", process.env.MONGODB_URI);
     console.error("Error connecting to MongoDB:", error);
+    console.log("MONGODB_URI:", process.env.MONGODB_URI);
     throw new Error("Failed to connect to MongoDB");
   }
 };
