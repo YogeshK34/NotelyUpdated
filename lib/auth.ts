@@ -7,6 +7,7 @@ import type { NextAuthOptions } from "next-auth";
 import User from "@/models/User";
 
 export const authOptions: NextAuthOptions = {
+    debug: true,
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -39,10 +40,15 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     GoogleProvider({
-        clientId: process.env.GOOGLE_CLIENT_ID as string,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-        authorization: { params: { prompt: "select_account" } },
-      }),
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      authorization: {
+        params: {
+          prompt: "select_account",
+          redirect_uri: 'https://notely-updated.vercel.app/api/auth/callback/google',
+        },
+      },
+    }),    
   ],
   session: {
     strategy: "jwt",
