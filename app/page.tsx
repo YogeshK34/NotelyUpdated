@@ -1,6 +1,5 @@
 import { Link } from "@nextui-org/link";
 import { button as buttonStyles } from "@nextui-org/theme";
-
 import {
   NavbarContent,
   NavbarItem,

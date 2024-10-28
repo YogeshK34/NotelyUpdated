@@ -13,6 +13,7 @@ import { Input } from "@nextui-org/input";
 import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
+
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { GithubIcon, SearchIcon, Logo } from "@/components/icons";
@@ -70,7 +71,7 @@ export const Navbar = () => {
         className="hidden basis-1/5 sm:flex sm:basis-full"
         justify="end"
       >
-        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
+        <NavbarItem className="hidden lg:flex" />
         <NavbarItem className="flex gap-2 justify-between"></NavbarItem>
       </NavbarContent>
 
