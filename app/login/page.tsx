@@ -3,6 +3,23 @@ import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 
 export default function Login() {
   const [error, setError] = useState("");
@@ -31,52 +48,79 @@ export default function Login() {
 
   return (
     <section className="w-full h-screen flex items-center justify-center">
-      <form
-        className="p-6 w-full max-w-[400px] flex flex-col justify-between items-center gap-2 
-                border border-solid border-black bg-white rounded"
-        onSubmit={handleSubmit}
-      >
-        {error && <div className="text-black">{error}</div>}
-        <h1 className="mb-5 w-full text-2xl font-bold">Sign In</h1>
-        <label className="w-full text-sm" htmlFor="email">Email</label>
-        <input
-          className="w-full h-8 border border-solid border-black rounded p-2"
-          id="email"
-          name="email"
-          placeholder="Email"
-          type="email"
-        />
-        <label className="w-full text-sm" htmlFor="password">Password</label>
-        <div className="flex w-full">
-          <input
-            className="w-full h-8 border border-solid border-black rounded p-2"
-            id="password"
-            name="password"
-            placeholder="Password"
-            type="password"
-          />
-        </div>
-        <button className="w-full border border-solid border-black rounded">
-          SignIn
-        </button>
-
-        <div className="w-full mt-4">
-          <button
-            className="w-full border border-solid border-black rounded mb-2"
-            onClick={() => handleOAuthSignIn("google")}
-            type="button"
-          >
-            Sign In with Google
-          </button>
-        </div>
-
-        <Link
-          className="text-sm text-[#888] transition duration-150 ease hover:text-black"
-          href="/register"
-        >
-          Don&apos;t have an account?
-        </Link>
-      </form>
+      <Tabs defaultValue="login" className="w-[400px]">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="login">Login</TabsTrigger>
+          <TabsTrigger value="register">Register</TabsTrigger>
+        </TabsList>
+        <TabsContent value="login">
+          <Card>
+            <CardHeader>
+              <CardTitle>Sign In</CardTitle>
+              <CardDescription>
+                Enter your credentials to access your account.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-1">
+              {error && <div className="text-red-500 text-sm">{error}</div>}
+              <form onSubmit={handleSubmit} className="space-y-2">
+                <div>
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    placeholder="Email"
+                    type="email"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    name="password"
+                    placeholder="Password"
+                    type="password"
+                    required
+                  />
+                </div>
+                <CardFooter>
+                  <Button type="submit" className="w-full">
+                    Sign In
+                  </Button>
+                </CardFooter>
+              </form>
+              <div className="w-full mt-2">
+                <Button
+                  className="w-full border border-solid border-black rounded"
+                  onClick={() => handleOAuthSignIn("google")}
+                  type="button"
+                >
+                  Sign In with Google
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="register">
+          <Card>
+            <CardHeader>
+              <CardTitle>Register</CardTitle>
+              <CardDescription>
+                Create an account to get started.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-1">
+              <Link
+                className="text-sm text-[#888] transition duration-150 ease hover:text-white"
+                href="/register"
+              >
+                Already have an account? Sign up
+              </Link>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </section>
   );
 }

@@ -36,7 +36,7 @@ export default function Home() {
             radius: "full",
             variant: "shadow",
           })}
-          href={"/register"}
+          href={"/notes"}
         >
           Get Started
         </Link>
