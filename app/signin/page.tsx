@@ -1,6 +1,7 @@
 "use client";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +18,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function TabsDemo() {
   const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function handleSignIn() {
+    const result = await signIn("credentials", {
+      redirect: false, // to prevent automatic redirect
+      email,
+      password,
+    });
+
+    if (result?.error) {
+      // console.error("Sign in error", result.error);
+    } else {
+      router.push("/notes");
+    }
+  }
 
   return (
     <div className="flex justify-center items-center">
@@ -37,17 +54,27 @@ export default function TabsDemo() {
               <div className="space-y-1">
                 <Label htmlFor="username">Email</Label>
                 <Input
-                  defaultValue="walterheisenberg@gmail.com"
                   id="username"
+                  placeholder="walterheisenberg@gmail.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="password">Password</Label>
-                <Input defaultValue="*******" id="password" />
+                <Input
+                  id="password"
+                  placeholder="*******"
+                  type="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
               </div>
             </CardContent>
             <CardFooter className="flex justify-center items-center">
-              <Button>Save changes</Button>
+              <Button onClick={handleSignIn}>Save changes</Button>
             </CardFooter>
             <div className="grid grid-cols-2">
               <CardFooter>

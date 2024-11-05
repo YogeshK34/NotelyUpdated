@@ -5,13 +5,23 @@ import {
   NavbarItem,
   Navbar as NextUINavbar,
 } from "@nextui-org/navbar";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+
+import { authOptions } from "./lib/auth";
 
 import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
 import { TwitterIcon, DiscordIcon, GithubIcon } from "@/components/icons";
 import { ThemeSwitch } from "@/components/theme-switch";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    redirect("/notes");
+  }
+
   return (
     <section className="flex flex-col items-center justify-center gap-4">
       <div className="inline-block max-w-xl text-center justify-center">
@@ -27,7 +37,6 @@ export default function Home() {
           place. Stay inspired, stay productive.
         </div>
       </div>
-
       <div className="flex gap-3">
         <Link
           className={buttonStyles({
@@ -35,12 +44,12 @@ export default function Home() {
             radius: "full",
             variant: "shadow",
           })}
-          href={"/signin"}
+          // redirect the user based on sesion
+          href="/signin"
         >
           Get Started
         </Link>
       </div>
-
       <div className="mt-36">
         <NextUINavbar>
           <NavbarContent>
