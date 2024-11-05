@@ -1,5 +1,6 @@
 "use client";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +16,8 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function TabsDemo() {
+  const router = useRouter();
+
   return (
     <div className="flex justify-center items-center">
       <Tabs className="w-[400px]" defaultValue="account">
@@ -66,6 +69,15 @@ export default function TabsDemo() {
                 </Button>
               </CardFooter>
             </div>
+            <CardFooter className=" flex justify-center items-center">
+              <button
+                onClick={() => {
+                  router.push("/signup");
+                }}
+              >
+                Don&apos;t have an account? SignUp
+              </button>
+            </CardFooter>
           </Card>
         </TabsContent>
       </Tabs>

@@ -1,3 +1,6 @@
+"use client";
+import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,6 +15,8 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function TabsDemo() {
+  const router = useRouter();
+
   return (
     <div className="flex justify-center items-center">
       <Tabs className="w-[400px]" defaultValue="account">
@@ -44,8 +49,17 @@ export default function TabsDemo() {
                 <Input defaultValue="*******" id="password" />
               </div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex justify-center items-center">
               <Button>Save changes</Button>
+            </CardFooter>
+            <CardFooter className=" flex justify-center items-center">
+              <button
+                onClick={() => {
+                  router.push("/signin");
+                }}
+              >
+                Already have an account? SignIn
+              </button>
             </CardFooter>
           </Card>
         </TabsContent>

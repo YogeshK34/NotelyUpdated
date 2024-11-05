@@ -35,7 +35,7 @@ export default function Home() {
             radius: "full",
             variant: "shadow",
           })}
-          href={"/notes"}
+          href={"/signin"}
         >
           Get Started
         </Link>
