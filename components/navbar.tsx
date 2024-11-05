@@ -17,6 +17,8 @@ import clsx from "clsx";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { GithubIcon, SearchIcon, Logo } from "@/components/icons";
+import SignUpButton from "./signupbutton";
+import SigninButton from "./signinbutton";
 
 export const Navbar = () => {
   const searchInput = (
@@ -65,6 +67,10 @@ export const Navbar = () => {
             </NavbarItem>
           ))}
         </ul>
+        <NavbarItem className="flex absolute top-0 right-0 h-16 w-36 gap-8 pt-2">
+          <SignUpButton />
+          <SigninButton />
+        </NavbarItem>
       </NavbarContent>
 
       <NavbarContent
@@ -72,7 +78,7 @@ export const Navbar = () => {
         justify="end"
       >
         <NavbarItem className="hidden lg:flex" />
-        <NavbarItem className="flex gap-2 justify-between"></NavbarItem>
+        <NavbarItem className="flex gap-2 justify-between" />
       </NavbarContent>
 
       <NavbarContent className="basis-1 pl-4 sm:hidden" justify="end">

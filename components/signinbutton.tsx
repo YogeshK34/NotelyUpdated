@@ -10,7 +10,7 @@ export default function SigninButton() {
       color="default"
       variant="shadow"
       onClick={() => {
-        router.push("/login");
+        router.push("/signin");
       }}
     >
       Signin

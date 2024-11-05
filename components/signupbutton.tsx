@@ -10,7 +10,7 @@ export default function SignUpButton() {
       color="primary"
       variant="shadow"
       onClick={() => {
-        router.push("/register");
+        router.push("/signup");
       }}
     >
       Signup
