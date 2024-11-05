@@ -14,11 +14,12 @@ import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
 
+import SignUpButton from "./signupbutton";
+import SigninButton from "./signinbutton";
+
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { GithubIcon, SearchIcon, Logo } from "@/components/icons";
-import SignUpButton from "./signupbutton";
-import SigninButton from "./signinbutton";
 
 export const Navbar = () => {
   const searchInput = (
