@@ -50,7 +50,7 @@ export default function TabsDemo() {
               <CardFooter>
                 <Button
                   onClick={() => {
-                    signIn("google");
+                    signIn("google", { callbackUrl: "/" });
                   }}
                 >
                   Signin with Google
@@ -59,7 +59,7 @@ export default function TabsDemo() {
               <CardFooter>
                 <Button
                   onClick={() => {
-                    signIn("github");
+                    signIn("github", { callbackUrl: "/" });
                   }}
                 >
                   Signin with Github
