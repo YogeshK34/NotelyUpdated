@@ -1,23 +1,14 @@
 "use client";
-import { useState } from "react";
-import {
-  NavbarContent,
-  NavbarItem,
-  Navbar as NextUINavbar,
-} from "@nextui-org/navbar";
-import { Link } from "@nextui-org/link";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-import { siteConfig } from "@/config/site";
-import { TwitterIcon, DiscordIcon, GithubIcon } from "@/components/icons";
-import { ThemeSwitch } from "@/components/theme-switch";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import TextIcon from "@/components/texticonComponents";
-import TitleIcon from "@/components/titleiconComponent";
+import { Button } from "@/components/ui/button";
 import { subtitle } from "@/components/primitives";
 
-// Define the shape of the submitted note
+// Define the shape of a note
 interface SubmittedNote {
+  id: number;
   title: string;
   note: string;
 }
@@ -25,9 +16,33 @@ interface SubmittedNote {
 export default function Notes() {
   const [inputTitle, setInputTitle] = useState<string>("");
   const [note, setNotes] = useState<string>("");
-  const [submittedNote, setSubmittedNote] = useState<SubmittedNote | null>(
-    null,
-  );
+  const [allNotes, setAllNotes] = useState<SubmittedNote[]>([]);
+  const [error, setError] = useState("");
+
+  // Function to fetch all notes for the user
+  const fetchNotes = async () => {
+    try {
+      const response = await axios.get("/api/notes", {
+        withCredentials: true, // Ensure cookies or session are sent
+      });
+      console.log("Fetched notes:", response.data);
+
+      if (Array.isArray(response.data)) {
+        setAllNotes(response.data);
+      } else {
+        setAllNotes([]); // Set as an empty array if the response is not an array
+        setError("Invalid data format received from API");
+      }
+    } catch (err) {
+      console.error("Error fetching notes:", err);
+      setError("Failed to load notes");
+    }
+  };
+
+  // Fetch notes on component mount
+  useEffect(() => {
+    fetchNotes();
+  }, []);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputTitle(e.target.value);
@@ -37,10 +52,31 @@ export default function Notes() {
     setNotes(e.target.value);
   };
 
-  const handleSubmit = () => {
-    setSubmittedNote({ title: inputTitle, note }); // Use inputTitle instead of title
-    setInputTitle("");
-    setNotes("");
+  // Function to submit a new note
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/notes",
+        {
+          title: inputTitle,
+          note,
+        },
+        {
+          withCredentials: true, // Ensure cookies or session are sent
+        }
+      );
+
+      console.log("Note added:", response.data);
+
+      if (response.status === 201) {
+        setInputTitle("");
+        setNotes("");
+        fetchNotes(); // Refresh notes list after adding a new note
+      }
+    } catch (err) {
+      console.error("Error adding note:", err);
+      setError("An error occurred while adding the note");
+    }
   };
 
   return (
@@ -49,79 +85,36 @@ export default function Notes() {
         <div className={subtitle()}>
           Capture your thoughts, one note at a time with Notely
         </div>
-        <br />
-        <br />
         <div className="flex w-full items-center space-x-2">
-          <div className="flex items-center gap-4">
-            <TitleIcon style={{ width: "24px", height: "24px" }} />
-            <Input
-              placeholder="Add Title"
-              type="text"
-              value={inputTitle}
-              onChange={handleTitleChange}
-            />
-            <br />
-          </div>
-          <br />
-          <div className="flex items-center gap-4">
-            <TextIcon style={{ width: "24px", height: "24px" }} />
-            <Input
-              placeholder="Add Note"
-              type="text"
-              value={note}
-              onChange={handleNoteChange}
-            />
-          </div>
-
-          <div className="flex items-center">
-            <Button type="submit" onClick={handleSubmit}>
-              Submit
-            </Button>
-          </div>
+          <Input
+            placeholder="Add Title"
+            type="text"
+            value={inputTitle}
+            onChange={handleTitleChange}
+          />
+          <Input
+            placeholder="Add Note"
+            type="text"
+            value={note}
+            onChange={handleNoteChange}
+          />
+          <Button type="submit" onClick={handleSubmit}>
+            Submit
+          </Button>
         </div>
 
-        {submittedNote && (
-          <div className=" flex flex-col items-start">
-            <div className={subtitle({ class: "mb-2" })}>
-              {/* <BulletPoint /> */}
-              {submittedNote.title}
+        {error && <div className="text-red-500">{error}</div>}
+
+        <div className="mt-4">
+          {allNotes.map((note) => (
+            <div key={note.id} className="border-b pb-2 mb-2">
+              <div className={subtitle({ class: "font-bold" })}>
+                {note.title}
+              </div>
+              <div>{note.note}</div>
             </div>
-            <div className={subtitle({ class: "mt-1" })}>
-              {submittedNote.note}
-            </div>
-          </div>
-        )}
-      </div>
-      <br />
-      <div className="mt-52">
-        <NextUINavbar>
-          <NavbarContent>
-            <NavbarItem className="hidden sm:flex gap-12">
-              <Link
-                isExternal
-                aria-label="Twitter"
-                href={siteConfig.links.twitter}
-              >
-                <TwitterIcon className="text-default-500" />
-              </Link>
-              <Link
-                isExternal
-                aria-label="Discord"
-                href={siteConfig.links.discord}
-              >
-                <DiscordIcon className="text-default-500" />
-              </Link>
-              <Link
-                isExternal
-                aria-label="Github"
-                href={siteConfig.links.github}
-              >
-                <GithubIcon className="text-default-500" />
-              </Link>
-              <ThemeSwitch />
-            </NavbarItem>
-          </NavbarContent>
-        </NextUINavbar>
+          ))}
+        </div>
       </div>
     </section>
   );
