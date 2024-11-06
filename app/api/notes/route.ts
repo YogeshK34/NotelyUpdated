@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
 
   // check if the user is authenticated
-  if (!session || !session.user?.id) {
+  if (!session || !session.user.id) {
     return NextResponse.json(
       { message: "Unauthorzed. Kindly signup!" },
       { status: 401 },
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         message: "Note created successfully",
-        notes: createNotes,
+        createNotes,
       },
       { status: 201 },
     );

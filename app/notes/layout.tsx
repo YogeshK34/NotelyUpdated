@@ -1,3 +1,5 @@
+import { Providers } from "../Provider";
+
 export default function NoteLayout({
   children,
 }: {
@@ -5,7 +7,9 @@ export default function NoteLayout({
 }) {
   return (
     <section className="flex flex-col items-center">
-      <div className="inline-block text-center">{children}</div>
+      <Providers>
+        <div className="inline-block text-center">{children}</div>
+      </Providers>
     </section>
   );
 }
